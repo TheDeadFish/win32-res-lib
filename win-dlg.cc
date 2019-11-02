@@ -93,7 +93,7 @@ int WinDlg::build_size(void)
 		totalSize += dlgEx ? 24 : 18;
 		totalSize += item.clss.build_size();
 		totalSize += item.title.build_size();
-		totalSize += item.createData.size+2;
+		totalSize += item.createData.len+2;
 	}
 	
 	return totalSize;
@@ -125,9 +125,9 @@ byte* WinDlg::build(byte* base)
 			exStyle); data = memcpyX(PW(data), &item.x, 5); }
 		data = item.clss.build(data);
 		data = item.title.build(data);
-		stosw(data, item.createData.size);
+		stosw(data, item.createData.len);
 		data = memcpyX(data, item.createData
-			.data, item.createData.size);
+			.data, item.createData.len);
 	}
 	
 	return data;

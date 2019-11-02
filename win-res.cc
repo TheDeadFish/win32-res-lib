@@ -18,8 +18,8 @@ Win32ResDir::ResData::~ResData()
 
 void Win32ResDir::ResData::update(xarray<byte> data)
 {
-	if(isIco()) { ico().load(data.data, data.size); }
-	else { free(); xcopy(data.data, data.size); }
+	if(isIco()) { ico().load(data.data, data.len); }
+	else { free(); xcopy(data.data, data.len); }
 }
 
 // resource finding - core
@@ -31,7 +31,7 @@ Win32ResDir::NameDir* Win32ResDir::TypeDir::findName(cch* str) {
 	if(!name.cmpName(str)) return &name; return NULL; }
 Win32ResDir::ResData* Win32ResDir::NameDir::findData(int langId){
 	for(auto& data : *this) { if(data.langId
-		== langId) return &data; return NULL; } }
+		== langId) return &data; } return NULL; }
 		
 // resource finding - helpers
 Win32ResDir::ResData* Win32ResDir::TypeDir::findData(cch* ns, int langId) {
@@ -193,10 +193,10 @@ bool Win32ResDir::save(xarray<byte>& file)
 	// correct checksum
 	*head.CheckSum = 0; u16 checkSum = 0;
 	nothing(); /* !! strict alias fix !! */
-	for(int i = 0; i < file.size; i += 2) {
+	for(int i = 0; i < file.len; i += 2) {
 		u32 tmp = checkSum + RW(file.data+i);
 		checkSum = tmp + (tmp>>16); }
-	*head.CheckSum = checkSum + file.size;
+	*head.CheckSum = checkSum + file.len;
 	return true;
 }
 

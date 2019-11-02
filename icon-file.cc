@@ -21,7 +21,7 @@ bool IconFileDir::optimize()
 	u32 tmpPal[16] = {}; int nColors = 0;
 	byte lookup[256]; u32* pal = palPtr();
 	for(byte* s = src; s < end; s++) {
-		int i = find(tmpPal, nColors, pal[*s]);
+		int i = ::findi(tmpPal, nColors, pal[*s]);
 		if(i < 0) { if(nColors >= 16) return false;
 			i = nColors++; tmpPal[i] = pal[*s]; }
 		lookup[*s] = i; }
