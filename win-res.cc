@@ -22,6 +22,12 @@ void Win32ResDir::ResData::update(xarray<byte> data)
 	else { free(); xcopy(data.data, data.len); }
 }
 
+bool Win32ResDir::ResData::dump(cch* fileName)
+{
+	if(isIco()) { return !ico().save(fileName);
+	} else { return !saveFile(fileName, data, len); }
+}
+
 // resource finding - core
 Win32ResDir::TypeDir* Win32ResDir::findType(cWinResName ts) {
 	cch* str = ts.fixName(); for(auto& type : types) 

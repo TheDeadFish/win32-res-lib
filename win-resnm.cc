@@ -18,6 +18,13 @@ cch* winResName::getName(char* buff) const
 	return buff;
 }
 
+cch* winResName::getName0(char* buff) const
+{
+	if(IS_PTR(name)) return name;
+	sprintf(buff, "#%05d", id);
+	return buff;
+}
+
 void winResName::setName(cch* str)
 {
 	str = fixName(str); name = IS_PTR

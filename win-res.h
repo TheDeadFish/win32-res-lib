@@ -9,7 +9,8 @@ struct Win32ResDir
 		s8 rsv, type = 0; WORD langId; ~ResData();
 		bool isIco() { return type < 0; }
 		IconFile& ico() { return *(IconFile*)this; }
-		void update(xarray<byte> data); };
+		void update(xarray<byte> data); 
+		bool dump(cch* fileName); };
 		
 	struct NameDir : WinResName, xArray<ResData> { 
 		ResData* findData(int langId); 

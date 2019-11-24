@@ -8,6 +8,7 @@ struct winResName {
 	winResName(cch* ri) : name((char*)ri) {}
 	winResName(size_t ri) : id(ri) {}
 
+	cch* getName0(char* buff) const; 
 	cch* getName(char* buff) const; void setName(cch* name); 
 	int cmpName(cch* str) const;  void rsFree(); 
 	bool isStr() const { return IS_PTR(name); }
