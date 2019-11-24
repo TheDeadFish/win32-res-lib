@@ -1,5 +1,13 @@
+:: build library
 call egcc.bat
-gcc %CCFLAGS2% win-res.cc icon-file.cc win-dlg.cc win-resnm.cc -c -g
-gcc %CCFLAGS2% test.cc -lstdshit *.o -o test.exe
+pushd bin\obj
+gcc %CCFLAGS2% ..\..\*.cc -c
+popd
+ar -rcs  bin\libexshit.a bin\obj\*.o
+
+:: build tools
+gcc %CCFLAGS2% app\icon-shrink.cc -o bin\icon-shrink.exe bin\libexshit.a -lstdshit
+
+:: install the library
 copy /Y *.h %PROGRAMS%\local\include
-ar -rcs  %PROGRAMS%\local\lib32\libexshit.a *.o
+copy /Y bin/*.a %PROGRAMS%\local\lib32
