@@ -16,19 +16,19 @@ struct Win32ResDir
 		xarray<byte> getData(int langId); };
 		
 	struct TypeDir : WinResName, xArray<NameDir> { 
-		ResData* findData(cch* name, int langId);
-		xarray<byte> getData(cch* name, int langId);
-		NameDir* findName(cch* name); };
+		ResData* findData(cWinResName name, int langId);
+		xarray<byte> getData(cWinResName name, int langId);
+		NameDir* findName(cWinResName name); };
 		
 	xArray<TypeDir> types;
 	
 	
 	// resource finding
 	static cch* fixName(cch* name);
-	TypeDir* findType(cch* type);
-	NameDir* findName(cch* type, cch* name);
-	ResData* findData(cch* type, cch* name, int langId);
-	xarray<byte> getData(cch* type, cch* name, int langId);
+	TypeDir* findType(cWinResName type);
+	NameDir* findName(cWinResName type, cWinResName name);
+	ResData* findData(cWinResName type, cWinResName name, int langId);
+	xarray<byte> getData(cWinResName type, cWinResName name, int langId);
 	
 	
 	

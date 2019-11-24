@@ -23,28 +23,28 @@ void Win32ResDir::ResData::update(xarray<byte> data)
 }
 
 // resource finding - core
-Win32ResDir::TypeDir* Win32ResDir::findType(cch* str) {
-	str = winResName::fixName(str); for(auto& type : types) 
+Win32ResDir::TypeDir* Win32ResDir::findType(cWinResName ts) {
+	cch* str = ts.fixName(); for(auto& type : types) 
 	if(!type.cmpName(str)) return &type; return NULL; }
-Win32ResDir::NameDir* Win32ResDir::TypeDir::findName(cch* str) {
-	str = winResName::fixName(str); for(auto& name : *this)
+Win32ResDir::NameDir* Win32ResDir::TypeDir::findName(cWinResName ns) {
+	cch* str = ns.fixName(); for(auto& name : *this)
 	if(!name.cmpName(str)) return &name; return NULL; }
 Win32ResDir::ResData* Win32ResDir::NameDir::findData(int langId){
 	for(auto& data : *this) { if(data.langId
 		== langId) return &data; } return NULL; }
 		
 // resource finding - helpers
-Win32ResDir::ResData* Win32ResDir::TypeDir::findData(cch* ns, int langId) {
+Win32ResDir::ResData* Win32ResDir::TypeDir::findData(cWinResName ns, int langId) {
 	NameDir* name = findName(ns); return name ? name->findData(langId) : 0; }
-Win32ResDir::ResData* Win32ResDir::findData(cch* ts, cch* ns, int langId) {
+Win32ResDir::ResData* Win32ResDir::findData(cWinResName ts, cWinResName ns, int langId) {
 	TypeDir* type = findType(ts); return type ? type->findData(ns, langId) : 0; }
-Win32ResDir::NameDir* Win32ResDir::findName(cch* ts, cch* ns) {
+Win32ResDir::NameDir* Win32ResDir::findName(cWinResName ts, cWinResName ns) {
 	TypeDir* type = findType(ts); return type ? type->findName(ns) : 0; }
 xarray<byte> Win32ResDir::NameDir::getData(int langId){ ResData* data = 
 	findData(langId); return data ? *data : xarray<byte>{0,0}; }
-xarray<byte> Win32ResDir::TypeDir::getData(cch* ns, int langId) { ResData* 
+xarray<byte> Win32ResDir::TypeDir::getData(cWinResName ns, int langId) { ResData* 
 	data = findData(ns, langId); return data ? *data : xarray<byte>{0,0}; }
-xarray<byte> Win32ResDir::getData(cch* ts, cch* ns, int langId) { ResData* 
+xarray<byte> Win32ResDir::getData(cWinResName ts, cWinResName ns, int langId) { ResData* 
 	data = findData(ts, ns, langId); return data ? *data : xarray<byte>{0,0}; }
 
 void initBmpHeader(BITMAPFILEHEADER*
