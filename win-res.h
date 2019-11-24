@@ -36,6 +36,8 @@ struct Win32ResDir
 	bool save(cch* dst, cch* src);
 	int load(cch* fileName);
 	void shrinkIcon(int maxSize);
+	void langKill(int keep);
+	
 	
 // private
 	struct loadArg_t { byte* data; u32 size, rva; 

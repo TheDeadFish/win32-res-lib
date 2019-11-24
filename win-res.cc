@@ -376,3 +376,18 @@ void Win32ResDir::shrinkIcon(int maxSize)
 	for(auto& data : name) if(data.isIco()) {
 		data.ico().shrink(maxSize); }
 }
+
+
+TMPL2(T,U) void delAllButThis(T& xa, U* pi) {
+	for(auto& x : xa) { if(&x != pi) pDel(&x); }
+	if(xa.data != pi) memcpy(xa.data, pi, sizeof(*pi));
+	xa.len = 1; }
+
+void Win32ResDir::langKill(int keep)
+{
+	for(auto& type : types) for(auto& name : type) {
+		ResData* keepDat = name.findData(keep); 
+		if(!keepDat) continue;
+		delAllButThis(name, keepDat);
+	}
+}
